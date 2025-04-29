@@ -39,6 +39,20 @@ The project follows these style guidelines:
 - Trailing commas in multiline
 - LF line endings
 
+### Git Hooks
+
+This project uses Husky and lint-staged to automate code quality checks:
+
+- **Pre-commit hook**: Automatically runs ESLint and Prettier on staged files
+- **Pre-push hook**: Runs tests and build to ensure everything works before pushing
+
+These hooks help maintain code quality by ensuring that:
+- All committed code is properly linted and formatted
+- All tests pass before code is pushed to the repository
+- The project builds successfully before pushing
+
+The Git hooks are configured to run automatically when you commit or push changes, helping to maintain code quality without manual intervention.
+
 ## Usage
 
 The tool operates in two modes:
