@@ -7,7 +7,7 @@ A command-line tool to find and move duplicate files based on exact file names f
 1. Clone this repository
 2. Install dependencies:
 ```bash
-npm install
+pnpm install
 ```
 
 ## Usage
@@ -21,17 +21,13 @@ The tool operates in two modes:
 To find duplicates (dry-run mode):
 
 ```bash
-npm run dev -- -s /path/to/source -t /path/to/target
-
-## example
-npm run dev -- -s '/Volumes/LaCie 5TB/Transfer/2025 Q1 Copy' -t '/Volumes/LaCie 5TB/Transfer/20250312 TW iCloud'
-npm run dev -- -s  '/Volumes/LaCie 5TB/Transfer/2025 Q1 Copy/2025 Q1 iCloud' -t '/Volumes/LaCie 5TB/Transfer/20250312 TW iCloud'
+pnpm dev -- -s /path/to/source -t /path/to/target
 ```
 
 To find and move duplicates from source to target directory:
 
 ```bash
-npm run dev -- -s /path/to/source -t /path/to/target --execute
+pnpm dev -- -s /path/to/source -t /path/to/target --execute
 ```
 
 ### Options
@@ -57,10 +53,10 @@ The tool automatically ignores common system files and directories:
 
 ```bash
 # Find duplicates (dry-run)
-npm run dev -- -s ./documents -t ./backup
+pnpm dev -- -s ./documents -t ./backup
 
 # Find and move duplicates from source to target directory
-npm run dev -- -s ./documents -t ./backup --execute
+pnpm dev -- -s ./documents -t ./backup --execute
 ```
 
 ## Building
@@ -68,7 +64,7 @@ npm run dev -- -s ./documents -t ./backup --execute
 To build the project:
 
 ```bash
-npm run build
+pnpm build
 ```
 
 The compiled JavaScript files will be in the `dist` directory.
@@ -78,5 +74,10 @@ The compiled JavaScript files will be in the `dist` directory.
 After building, you can run the tool using:
 
 ```bash
-npm start -- -s /path/to/source -t /path/to/target
-``` 
+pnpm start -- -s /path/to/source -t /path/to/target
+```
+
+## More Examples
+```bash
+pnpm dev -- -s '/Volumes/LaCie 5TB/Transfer/2025 Q1' -t '/Volumes/LaCie 5TB/Transfer/20250312 TW iCloud' > output.log
+```
