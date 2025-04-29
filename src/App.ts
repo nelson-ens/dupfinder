@@ -17,7 +17,7 @@ import * as readline from 'readline';
  * - -e, --execute: Execute the moving of duplicate files (default is dry-run)
  * - -y, --yes: Skip confirmation prompt (default is to prompt for confirmation)
  */
-async function main() {
+export async function main() {
   const program = new Command();
 
   program
@@ -27,8 +27,12 @@ async function main() {
     .requiredOption('-s, --source <directory>', 'Source directory to scan (duplicates will be moved from here)')
     .requiredOption('-t, --target <directory>', 'Target directory to scan for duplicates and move files to')
     .option('-e, --execute', 'Execute the moving of duplicate files (default is dry-run)', false)
-    .option('-y, --yes', 'Skip confirmation prompt', false)
-    .parse(process.argv);
+    .option('-y, --yes', 'Skip confirmation prompt', false);
+
+  // Only parse process.argv in non-test environment
+  if (process.env.NODE_ENV !== 'test') {
+    program.parse(process.argv);
+  }
 
   const options = program.opts();
 
@@ -77,7 +81,7 @@ async function main() {
  * @param message - The confirmation message to display
  * @returns A promise that resolves to true if the user confirmed, false otherwise
  */
-function confirmAction(message: string): Promise<boolean> {
+export function confirmAction(message: string): Promise<boolean> {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -92,5 +96,7 @@ function confirmAction(message: string): Promise<boolean> {
   });
 }
 
-// Start the application
-main(); 
+// Start the application only in non-test environment
+if (process.env.NODE_ENV !== 'test') {
+  main();
+} 
