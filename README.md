@@ -35,8 +35,15 @@ pnpm dev -- -s /path/to/source -t /path/to/target --execute
 - `-s, --source <directory>`: Source directory to scan (duplicates will be moved from here)
 - `-t, --target <directory>`: Target directory to scan for duplicates and move files to
 - `-e, --execute`: Execute the moving of duplicate files (default is dry-run)
+- `-y, --yes`: Skip confirmation prompt (default is to prompt for confirmation)
 - `--help`: Display help information
 - `--version`: Display version information
+
+### Safety Features
+
+- **Confirmation Prompt**: By default, the tool will ask for confirmation before moving any files
+- **Dry-run Mode**: The default mode only shows what would be moved without actually moving anything
+- **System File Ignoring**: Common system files like `.DS_Store` are automatically ignored
 
 ### Ignored Files
 
@@ -57,6 +64,9 @@ pnpm dev -- -s ./documents -t ./backup
 
 # Find and move duplicates from source to target directory
 pnpm dev -- -s ./documents -t ./backup --execute
+
+# Skip confirmation prompt
+pnpm dev -- -s ./documents -t ./backup --execute --yes
 ```
 
 ## Building
