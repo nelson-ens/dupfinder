@@ -20,6 +20,8 @@ export interface DuplicateFile {
  * This class scans both directories recursively, identifies files with the same names,
  * and provides functionality to move duplicate files from the source to the target directory
  * while preserving the directory structure.
+ *
+ * Git hooks will automatically lint and format this file on commit.
  */
 export class DuplicateFinder {
   /** Path to the source directory */
