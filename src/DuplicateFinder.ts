@@ -16,7 +16,7 @@ export interface DuplicateFile {
 
 /**
  * Class responsible for finding and moving duplicate files between source and target directories.
- * 
+ *
  * This class scans both directories recursively, identifies files with the same names,
  * and provides functionality to move duplicate files from the source to the target directory
  * while preserving the directory structure.
@@ -29,11 +29,19 @@ export class DuplicateFinder {
   /** List of duplicate files found */
   private duplicates: DuplicateFile[] = [];
   /** List of file and directory names to ignore during scanning */
-  private ignoredFiles: string[] = ['.DS_Store', 'Thumbs.db', '.git', '.gitignore', '.svn', '.idea', '.vscode'];
+  private ignoredFiles: string[] = [
+    '.DS_Store',
+    'Thumbs.db',
+    '.git',
+    '.gitignore',
+    '.svn',
+    '.idea',
+    '.vscode',
+  ];
 
   /**
    * Creates a new DuplicateFinder instance.
-   * 
+   *
    * @param sourceDir - The source directory to scan for duplicates
    * @param targetDir - The target directory to scan for duplicates and move files to
    */
@@ -44,42 +52,42 @@ export class DuplicateFinder {
 
   /**
    * Finds duplicate files between the source and target directories.
-   * 
+   *
    * This method scans both directories recursively, identifies files with the same names,
    * and calculates the new paths where the files would be moved to.
-   * 
+   *
    * @returns A promise that resolves to an array of DuplicateFile objects
    */
   public async findDuplicates(): Promise<DuplicateFile[]> {
     this.duplicates = [];
-    
+
     // Read all files from source directory
     const sourceFiles = await this.readFilesRecursively(this.sourceDir);
-    
+
     // Read all files from target directory
     const targetFiles = await this.readFilesRecursively(this.targetDir);
-    
+
     // Create a map of target files for faster lookup
     const targetFileMap = new Map<string, string>();
-    targetFiles.forEach(file => {
+    targetFiles.forEach((file) => {
       const fileName = path.basename(file);
       targetFileMap.set(fileName, file);
     });
 
     // Find duplicates
-    sourceFiles.forEach(sourceFile => {
+    sourceFiles.forEach((sourceFile) => {
       const fileName = path.basename(sourceFile);
       const targetFile = targetFileMap.get(fileName);
-      
+
       if (targetFile) {
         // Calculate the new path in the target directory
         const relativePath = path.relative(this.sourceDir, sourceFile);
         const newPath = path.join(this.targetDir, relativePath);
-        
+
         this.duplicates.push({
           sourcePath: sourceFile,
           targetPath: targetFile,
-          newPath: newPath
+          newPath: newPath,
         });
       }
     });
@@ -89,11 +97,11 @@ export class DuplicateFinder {
 
   /**
    * Moves duplicate files from the source directory to the target directory.
-   * 
+   *
    * This method iterates through all duplicate files found and moves them
    * from the source directory to the target directory, preserving the directory structure.
    * It creates any necessary directories in the target location.
-   * 
+   *
    * @returns A promise that resolves when all files have been moved
    */
   public async moveDuplicates(): Promise<void> {
@@ -102,7 +110,7 @@ export class DuplicateFinder {
         // Create the target directory if it doesn't exist
         const targetDir = path.dirname(duplicate.newPath);
         await fs.promises.mkdir(targetDir, { recursive: true });
-        
+
         // Move the file
         await fs.promises.rename(duplicate.sourcePath, duplicate.newPath);
         console.log(`Moved file: ${duplicate.sourcePath} -> ${duplicate.newPath}`);
@@ -114,24 +122,24 @@ export class DuplicateFinder {
 
   /**
    * Recursively reads all files in a directory, excluding ignored files and directories.
-   * 
+   *
    * @param dir - The directory to scan
    * @returns A promise that resolves to an array of file paths
    */
   private async readFilesRecursively(dir: string): Promise<string[]> {
     const files: string[] = [];
-    
+
     try {
       const entries = await fs.promises.readdir(dir, { withFileTypes: true });
-      
+
       for (const entry of entries) {
         const fullPath = path.join(dir, entry.name);
-        
+
         // Skip ignored files and directories
         if (this.shouldIgnore(entry.name)) {
           continue;
         }
-        
+
         if (entry.isDirectory()) {
           const subFiles = await this.readFilesRecursively(fullPath);
           files.push(...subFiles);
@@ -142,21 +150,20 @@ export class DuplicateFinder {
     } catch (error) {
       console.error(`Error reading directory ${dir}:`, error);
     }
-    
+
     return files;
   }
-  
+
   /**
    * Determines if a file or directory should be ignored based on its name.
-   * 
+   *
    * @param fileName - The name of the file or directory to check
    * @returns True if the file should be ignored, false otherwise
    */
   private shouldIgnore(fileName: string): boolean {
-    return this.ignoredFiles.some(ignoredFile => 
-      fileName === ignoredFile || 
-      fileName.startsWith('.') || 
-      fileName.endsWith('~')
+    return this.ignoredFiles.some(
+      (ignoredFile) =>
+        fileName === ignoredFile || fileName.startsWith('.') || fileName.endsWith('~'),
     );
   }
-} 
+}

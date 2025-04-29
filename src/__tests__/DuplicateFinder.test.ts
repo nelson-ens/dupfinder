@@ -19,7 +19,7 @@ describe('DuplicateFinder', () => {
     // Create temporary test directories
     sourceDir = path.join(__dirname, 'test-source');
     targetDir = path.join(__dirname, 'test-target');
-    
+
     // Create directories if they don't exist
     if (!fs.existsSync(sourceDir)) {
       fs.mkdirSync(sourceDir, { recursive: true });
@@ -84,7 +84,7 @@ describe('DuplicateFinder', () => {
   it('should ignore specified files and directories', async () => {
     // Create ignored files
     const ignoredFiles = ['.DS_Store', 'Thumbs.db', '.git'];
-    ignoredFiles.forEach(file => {
+    ignoredFiles.forEach((file) => {
       fs.writeFileSync(path.join(sourceDir, file), 'ignored content');
       fs.writeFileSync(path.join(targetDir, file), 'ignored content');
     });
@@ -97,10 +97,10 @@ describe('DuplicateFinder', () => {
     // Create nested directory structure
     const nestedDir = 'nested';
     const testFileName = 'test.txt';
-    
+
     const sourceNestedDir = path.join(sourceDir, nestedDir);
     const targetNestedDir = path.join(targetDir, nestedDir);
-    
+
     fs.mkdirSync(sourceNestedDir, { recursive: true });
     fs.mkdirSync(targetNestedDir, { recursive: true });
 
@@ -151,4 +151,4 @@ describe('DuplicateFinder', () => {
     // Restore original readdir function
     fs.promises.readdir = originalReaddir;
   });
-}); 
+});

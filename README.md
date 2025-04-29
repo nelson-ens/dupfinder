@@ -10,6 +10,35 @@ A command-line tool to find and move duplicate files based on exact file names f
 pnpm install
 ```
 
+## Code Style and Linting
+
+This project uses ESLint and Prettier to maintain consistent code style. The configuration is set up to:
+
+- Use TypeScript-specific linting rules
+- Follow modern JavaScript/TypeScript best practices
+- Automatically format code on save
+- Enforce consistent code style across the project
+
+### Available Commands
+
+- `pnpm run lint`: Check for linting issues in the source code
+- `pnpm run lint:fix`: Automatically fix linting issues in the source code
+- `pnpm run format`: Format all TypeScript files in the source code
+- `pnpm run format:check`: Check if files are properly formatted
+
+### Style Configuration
+
+- ESLint configuration: `eslint.config.js`
+- Prettier configuration: `.prettierrc`
+
+The project follows these style guidelines:
+- Single quotes for strings
+- Semicolons required
+- 100 character line width
+- 2 space indentation
+- Trailing commas in multiline
+- LF line endings
+
 ## Usage
 
 The tool operates in two modes:

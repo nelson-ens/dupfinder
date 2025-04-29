@@ -1,6 +1,4 @@
 import { Command } from 'commander';
-import * as fs from 'fs';
-import * as path from 'path';
 import { DuplicateFinder } from '../DuplicateFinder';
 
 // Mock the DuplicateFinder class
@@ -15,17 +13,17 @@ jest.mock('commander', () => {
     requiredOption: jest.fn().mockReturnThis(),
     option: jest.fn().mockReturnThis(),
     parse: jest.fn(),
-    opts: jest.fn()
+    opts: jest.fn(),
   };
 
   return {
-    Command: jest.fn(() => mockProgram)
+    Command: jest.fn(() => mockProgram),
   };
 });
 
 // Mock readline
 jest.mock('readline', () => ({
-  createInterface: jest.fn()
+  createInterface: jest.fn(),
 }));
 
 describe('App', () => {
@@ -69,7 +67,7 @@ describe('App', () => {
       source: 'source',
       target: 'target',
       execute: false,
-      yes: false
+      yes: false,
     });
 
     // Import and run the main function
@@ -85,8 +83,8 @@ describe('App', () => {
       {
         sourcePath: 'source/file1.txt',
         targetPath: 'target/file1.txt',
-        newPath: 'target/file1.txt'
-      }
+        newPath: 'target/file1.txt',
+      },
     ];
     mockDuplicateFinder.findDuplicates.mockResolvedValue(mockDuplicates);
 
@@ -96,7 +94,7 @@ describe('App', () => {
       source: 'source',
       target: 'target',
       execute: false,
-      yes: false
+      yes: false,
     });
 
     // Import and run the main function
@@ -104,7 +102,9 @@ describe('App', () => {
     await main();
 
     expect(console.log).toHaveBeenCalledWith('\nDRY RUN: No files were moved.');
-    expect(console.log).toHaveBeenCalledWith('To actually move these files, run the command with --execute flag');
+    expect(console.log).toHaveBeenCalledWith(
+      'To actually move these files, run the command with --execute flag',
+    );
   });
 
   it('should handle duplicate files in execute mode with auto-confirm', async () => {
@@ -113,8 +113,8 @@ describe('App', () => {
       {
         sourcePath: 'source/file1.txt',
         targetPath: 'target/file1.txt',
-        newPath: 'target/file1.txt'
-      }
+        newPath: 'target/file1.txt',
+      },
     ];
     mockDuplicateFinder.findDuplicates.mockResolvedValue(mockDuplicates);
     mockDuplicateFinder.moveDuplicates.mockResolvedValue();
@@ -125,7 +125,7 @@ describe('App', () => {
       source: 'source',
       target: 'target',
       execute: true,
-      yes: true
+      yes: true,
     });
 
     // Import and run the main function
@@ -146,7 +146,7 @@ describe('App', () => {
       source: 'source',
       target: 'target',
       execute: false,
-      yes: false
+      yes: false,
     });
 
     // Import and run the main function
@@ -163,15 +163,15 @@ describe('App', () => {
       {
         sourcePath: 'source/file1.txt',
         targetPath: 'target/file1.txt',
-        newPath: 'target/file1.txt'
-      }
+        newPath: 'target/file1.txt',
+      },
     ];
     mockDuplicateFinder.findDuplicates.mockResolvedValue(mockDuplicates);
 
     // Mock readline interface
     const mockReadline = {
       question: jest.fn((_, callback) => callback('y')),
-      close: jest.fn()
+      close: jest.fn(),
     };
     jest.spyOn(require('readline'), 'createInterface').mockReturnValue(mockReadline);
 
@@ -181,7 +181,7 @@ describe('App', () => {
       source: 'source',
       target: 'target',
       execute: true,
-      yes: false
+      yes: false,
     });
 
     // Import and run the main function
@@ -199,15 +199,15 @@ describe('App', () => {
       {
         sourcePath: 'source/file1.txt',
         targetPath: 'target/file1.txt',
-        newPath: 'target/file1.txt'
-      }
+        newPath: 'target/file1.txt',
+      },
     ];
     mockDuplicateFinder.findDuplicates.mockResolvedValue(mockDuplicates);
 
     // Mock readline interface
     const mockReadline = {
       question: jest.fn((_, callback) => callback('n')),
-      close: jest.fn()
+      close: jest.fn(),
     };
     jest.spyOn(require('readline'), 'createInterface').mockReturnValue(mockReadline);
 
@@ -217,7 +217,7 @@ describe('App', () => {
       source: 'source',
       target: 'target',
       execute: true,
-      yes: false
+      yes: false,
     });
 
     // Import and run the main function
@@ -229,4 +229,4 @@ describe('App', () => {
     expect(mockDuplicateFinder.moveDuplicates).not.toHaveBeenCalled();
     expect(console.log).toHaveBeenCalledWith('Operation cancelled by user.');
   });
-}); 
+});
